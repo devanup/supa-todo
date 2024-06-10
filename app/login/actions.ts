@@ -4,6 +4,8 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import { createClient } from '@/utils/supabase/server';
+import { Provider } from '@supabase/supabase-js';
+import { getURL } from '@/utils/helpers';
 
 export async function emailLogin(formData: FormData) {
 	const supabase = createClient();
@@ -54,4 +56,22 @@ export async function signOut() {
 
 	// revalidatePath('/', 'layout');
 	redirect('/login');
+}
+
+export async function oAuthSignIn(provider: Provider) {
+	if (!provider) {
+		redirect('/login?message=No provider found');
+	}
+	const supabase = createClient();
+	const redirectURL = getURL('/auth/callback'); // to pass to the provider for redirection after authentication
+	const { data, error } = await supabase.auth.signInWithOAuth({
+		provider,
+		options: {
+			redirectTo: redirectURL,
+		},
+	});
+	if (error) {
+		redirect('/login?message=Could not authenticate user');
+	}
+	return redirect(data.url); // redirect to the provider's authentication page to complete the sign-in and then redirect back to the app
 }
