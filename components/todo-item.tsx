@@ -1,30 +1,49 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
-import { Trash2 } from "lucide-react";
+'use client';
+import { deleteTodo, updateTodo } from '@/app/todos/actions';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { cn } from '@/lib/utils';
+import { Todo } from '@/types/custom';
+import { Trash2 } from 'lucide-react';
 
-export function TodoItem({ todo }: { todo: string }) {
-  return (
-    <form>
-      <TodoCard todo={todo} />
-    </form>
-  );
+export function TodoItem({ todo }: { todo: Todo }) {
+	return (
+		<form>
+			<TodoCard todo={todo} />
+		</form>
+	);
 }
 
-export function TodoCard({ todo }: { todo: string }) {
-  return (
-    <Card className={cn("w-full")}>
-      <CardContent className="flex items-start gap-3 p-3">
-        <span className="size-10 flex items-center justify-center">
-          <Checkbox />
-        </span>
-        <p className={cn("flex-1 pt-2 min-w-0 break-words")}>{todo}</p>
-        <Button variant="ghost" size="icon">
-          <Trash2 className="h-5 w-5" />
-          <span className="sr-only">Delete Todo</span>
-        </Button>
-      </CardContent>
-    </Card>
-  );
+export function TodoCard({ todo }: { todo: Todo }) {
+	return (
+		<Card className={cn('w-full')}>
+			<CardContent className='flex items-start gap-3 p-3'>
+				<span className='size-10 flex items-center justify-center'>
+					<Checkbox
+						checked={Boolean(todo.is_complete)}
+						onCheckedChange={async (val) => {
+							// for checkboxes with radix ui or shadcn we need to check it's not indeterminate
+							if (val === 'indeterminate') return null;
+							await updateTodo({
+								...todo,
+								is_complete: val,
+							});
+						}}
+					/>
+				</span>
+				<p className={cn('flex-1 pt-2 min-w-0 break-words')}>{todo.task}</p>
+				<Button
+					variant='ghost'
+					size='icon'
+					formAction={async (data) => {
+						await deleteTodo(todo.id);
+					}}
+				>
+					<Trash2 className='h-5 w-5' />
+					<span className='sr-only'>Delete Todo</span>
+				</Button>
+			</CardContent>
+		</Card>
+	);
 }
