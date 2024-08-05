@@ -1,29 +1,19 @@
 ## NextJS 14 Server Actions and Supabase + Auth
 
-<p align="center">
- <img src="REPLACE_ME" width="400">
-</p>
-
-In this repo is a simple implementation of a minimal todo app, used for demo purposes, Features include:
+This repository contains a minimal todo app built to demonstrate various features of Next.js 14 and Supabase. Key features include:
 
 - Server Actions
 - useFormState
-- Optimisitc Updates
+- Optimistic Updates
 - Supabase Database
 - Supabase Auth
-- Auth and oAuth example (GitHub)
+- Authentication and OAuth example (GitHub)
 
 ### Learning Points
 
-Hopefully, from this project and the video, you can learn:
+From this project, I've learned learn about:
 
-- NextJS 14 Server Actions (and drawbacks)
-- Supabase Auth and Database
+- NextJS 14 Server Actions (and their drawbacks)
+- Supabase Auth and Database integration
 - useFormState
 - useOptimistic
-
-## YouTube
-
-You can follow along with me as we build this on YouTube. The commits will line up with the YouTube chapters so you can easily see what changed in each section.
-
-[![YouTube video]()](<[https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://youtu.be/VIDEO_ID)>)
